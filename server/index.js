@@ -1,4 +1,5 @@
 const express = require('express');
+const https = require('https');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -17,7 +18,8 @@ const verifyToken = require('./middleware/auth.js');
 const { createPost } = require('./controllers/posts.js')
 const User = require('./model/User.js')
 const Post = require('./model/Post.js')
-const { users, posts } = require('./data/index.js')
+const { users, posts } = require('./data/index.js');
+const { readFileSync } = require('fs');
 
 
 
@@ -56,14 +58,32 @@ app.post('/posts', verifyToken, upload.single('picture'), createPost);
 
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
-app.use('/posts', postRoutes)
+app.use('/posts', postRoutes);
+app.use(express.static('build'));
+
+app.use((req, res, next) => {
+    if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
+        next();
+    } else {
+        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        res.header('Expires', '-1');
+        res.header('Pragma', 'no-cache');
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    }
+});
 
 
 
 // Setting up mongoose
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 443;
+const HOST = 'localhost';
+const credentials = {
+    key : readFileSync('./certificates/server.key'),
+    cert : readFileSync('./certificates/server.pem')
+}
+const server = https.createServer(credentials,app);
 dbConnection().then(() => {
-    app.listen(PORT, () => {
+    server.listen(PORT, HOST, () => {
         console.log('Server listening on PORT ', PORT);
 
         // //add data just once

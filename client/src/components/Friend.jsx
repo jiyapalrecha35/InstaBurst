@@ -26,7 +26,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
     //updating the friend list
     const patchFriend = async () => {
-        const response = await fetch(`http://localhost:8080/users/${_id}/${friendId}`, {
+        const response = await fetch(`/users/${_id}/${friendId}`, {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${token}`,

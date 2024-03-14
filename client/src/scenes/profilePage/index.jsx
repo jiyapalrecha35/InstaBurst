@@ -16,7 +16,7 @@ const ProfilePage = () => {
 
   // Fetch user info when the component mounts if it's not already in state
   const getUser = async () => {
-    const response = await fetch(`http://localhost:8080/users/${userId}`, {
+    const response = await fetch(`/users/${userId}`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     })

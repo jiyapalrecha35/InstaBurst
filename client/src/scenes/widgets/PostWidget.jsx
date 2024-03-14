@@ -29,7 +29,7 @@ const PostWidget = ({ postId, postUserId, name, description, location, picturePa
 
   //to change the number of likes
   const patchLike = async () => {
-    const reponse = await fetch(`http://localhost:8080/posts/${postId}/like`, {
+    const reponse = await fetch(`/posts/${postId}/like`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ const PostWidget = ({ postId, postUserId, name, description, location, picturePa
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:8080/assets/${picturePath}`}
+          src={`/assets/${picturePath}`}
         />
       )}
 

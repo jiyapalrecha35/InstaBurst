@@ -11,7 +11,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
     //getFeed posts and get user posts - 2 api calls
     const getPosts = async () => {
-        const response = await fetch('http://localhost:8080/posts',{
+        const response = await fetch('/posts',{
             method: 'GET',
             headers: { Authorization: `Bearer ${token}` },
         })
@@ -21,7 +21,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
 
     const getUserPosts = async () => {
-        const response = await fetch(`http://localhost:8080/posts/${userId}/posts`, {
+        const response = await fetch(`/posts/${userId}/posts`, {
             method: 'GET',
             headers: { Authorization: `Bearer ${token}` },
         })
